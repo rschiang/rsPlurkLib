@@ -1,0 +1,1 @@
+Plurk.com is a service of Plurk Limited.
