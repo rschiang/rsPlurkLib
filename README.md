@@ -33,4 +33,4 @@ You can follow @[RSChiang](http://www.plurk.com/RSChiang) on Plurk.
 
 License
 -------
-rsPlurkLib is released under [MIT License](legal.md).
+rsPlurkLib is released under [MIT License](/rschiang/rsPlurkLib/blob/master/LICENSE.md).
