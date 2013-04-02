@@ -21,11 +21,20 @@ Prerequisites
 * `PlurkHelper.cs` wraps Plurk API as a single callable static class.
 * `Entities` folder holds the JSON entity type Plurk will return.
 
-To-dos
-------
-*	Implement full [Plurk APIs](http://www.plurk.com/API). 
-	Currently only basic `/APP/Timeline/` and `/APP/Responses/` features implemented, so contributions are welcomed.
+### Quick-start
+* Create a new instance of `PlurkHelper`.
+* Acquire a token using methods under `PlurkHelper.Client`, or directly assign a stored token to `PlurkHelper.Client.Token`.
+* Make use of methods under `PlurkHelper` class for matching API calls. A quick example: `helper.AddPlurk("says", "Hello Plurk!");`
 
+Contribute
+----------
+You can provide recommendations or report bugs at our [issue tracker](https://github.com/rschiang/rsPlurkLib/issues).
+
+### To-dos
+* Expand API coverage. Currently only basic `/APP/Timeline/` and `/APP/Responses/` features implemented.
+* Document the entity classes under `Entities`. 
+
+The offical Plurk API documentation can be found [here](http://www.plurk.com/API).
 
 Author
 ------
