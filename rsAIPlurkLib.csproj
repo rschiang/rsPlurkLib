@@ -39,6 +39,7 @@
     <Compile Include="Entities\Responses.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="HttpUtil.cs" />
+    <Compile Include="IOAuthClient.cs" />
     <Compile Include="OAuthException.cs" />
     <Compile Include="OAuthInstance.cs" />
     <Compile Include="PlurkEnums.cs" />
