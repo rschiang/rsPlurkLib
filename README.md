@@ -21,10 +21,18 @@ Prerequisites
 * `PlurkHelper.cs` wraps Plurk API as a single callable static class.
 * `Entities` folder holds the JSON entity type Plurk will return.
 
-### Quick-start
+### Usage
 * Create a new instance of `PlurkHelper`.
-* Acquire a token using methods under `PlurkHelper.Client`, or directly assign a stored token to `PlurkHelper.Client.Token`.
-* Make use of methods under `PlurkHelper` class for matching API calls. A quick example: `helper.AddPlurk("says", "Hello Plurk!");`
+* Acquire a token using methods under `PlurkHelper.Client`.
+* Make use of methods under `PlurkHelper` class for matching API calls. 
+
+If you aren't building an interactive client, you may directly assign a token, which significantly reduces the amount of code like this:
+
+    PlurkHelper helper = new PlurkHelper();
+    helper.Client.Token = new OAuthToken("AsDfGhIlB5Zd", "GUjneXpk91a7G32c8X6q9527", OAuthTokenType.Permanent);
+    helper.AddPlurk("says", "Hello Plurk!");
+
+More examples can be found under [Examples](https://github.com/rschiang/rsPlurkLib/tree/master/Examples) folder, with a typical OAuth authentication walkthrough available as a console implementation.
 
 Contribute
 ----------
