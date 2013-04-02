@@ -9,43 +9,52 @@ namespace RenRen.Plurk
     /// <summary>
     /// Provides functionalities of interacting with Plurk.
     /// </summary>
-    public static class PlurkHelper
+    public sealed class PlurkHelper
     {
-        #region "Properties"
-        private static OAuthInstance instance;
-        private static OAuthInstance Instance
+        #region "Constructor"
+        public PlurkHelper()
         {
-            get {
-                if (instance == null) {
-                    instance = new OAuthInstance();
-                    // You can load your token here.
-                }
-                return instance;
-            }
+            instance = new OAuthInstance();
+            // You can assign your token here if you aren't making an interactive client
+            // e.g. instance.Token = new OAuthToken(content, secret, OAuthTokenType.Permanent);
+        }
+        #endregion
+
+        #region "Private Fields"
+        private OAuthInstance instance;
+        #endregion
+
+        #region "Properties"
+        /// <summary>
+        /// Gets the OAuth client implementation used by this instance.
+        /// </summary>
+        public IOAuthClient Client
+        {
+            get { return instance; }
         }
         #endregion
 
         #region "Timeline/"
 
-        public static Entities.GetPlurkResponse GetPlurk(long plurk_id)
+        public Entities.GetPlurkResponse GetPlurk(long plurk_id)
         {
             NameValueCollection nvc = new NameValueCollection();
             nvc.Add("plurk_id", plurk_id.ToString());
 
-            string req = Instance.SendRequest("Timeline/getPlurk", nvc);
+            string req = instance.SendRequest("Timeline/getPlurk", nvc);
             return CreateEntity<Entities.GetPlurkResponse>(req);
         }
 
-        public static Entities.GetPlurksResponse GetUnreadPlurks()
+        public Entities.GetPlurksResponse GetUnreadPlurks()
         {
             NameValueCollection nvc = new NameValueCollection();
             nvc.Add("limit", "200");
 
-            string req = Instance.SendRequest("Timeline/getUnreadPlurks", nvc);
+            string req = instance.SendRequest("Timeline/getUnreadPlurks", nvc);
             return CreateEntity<Entities.GetPlurksResponse>(req);
         }
 
-        public static Entities.GetPlurksResponse GetPublicPlurks(int userId, DateTime offset, 
+        public Entities.GetPlurksResponse GetPublicPlurks(int userId, DateTime offset, 
                                                     PlurkType type = PlurkType.All, int limit = 20)
         {
             NameValueCollection nvc = new NameValueCollection();
@@ -65,20 +74,20 @@ namespace RenRen.Plurk
                     nvc.Add("filter", "only_favorite"); break;
             }
 
-            string req = Instance.SendRequest("Timeline/getPublicPlurks", nvc);
+            string req = instance.SendRequest("Timeline/getPublicPlurks", nvc);
             return CreateEntity<Entities.GetPlurksResponse>(req);
         }
 
-        public static void AddPlurk(string qualifier, string message)
+        public void AddPlurk(string qualifier, string message)
         {
             NameValueCollection nvc = new NameValueCollection();
             nvc.Add("qualifier", qualifier);
             nvc.Add("content", message);
 
-            string req = Instance.SendRequest("Timeline/plurkAdd", nvc);
+            string req = instance.SendRequest("Timeline/plurkAdd", nvc);
         }
 
-        public static void MutePlurks(long[] plurk_ids)
+        public void MutePlurks(long[] plurk_ids)
         {
             NameValueCollection nvc = new NameValueCollection();
 
@@ -89,29 +98,29 @@ namespace RenRen.Plurk
             sb.Append("]");
             nvc.Add("ids", sb.ToString());
 
-            string req = Instance.SendRequest("Timeline/mutePlurks", nvc);
+            string req = instance.SendRequest("Timeline/mutePlurks", nvc);
         }
 
         #endregion
 
         #region "Responses/"
 
-        public static void AddResponse(long plurk_id, string qualifier, string message)
+        public void AddResponse(long plurk_id, string qualifier, string message)
         {
             NameValueCollection nvc = new NameValueCollection();
             nvc.Add("qualifier", qualifier);
             nvc.Add("content", message);
             nvc.Add("plurk_id", plurk_id.ToString());
 
-            string req = Instance.SendRequest("Responses/responseAdd", nvc);
+            string req = instance.SendRequest("Responses/responseAdd", nvc);
         }
 
-        public static Entities.GetResponseResponse GetResponses(long plurk_id)
+        public Entities.GetResponseResponse GetResponses(long plurk_id)
         {
             NameValueCollection nvc = new NameValueCollection();
             nvc.Add("plurk_id", plurk_id.ToString());
 
-            string req = Instance.SendRequest("Responses/get", nvc);
+            string req = instance.SendRequest("Responses/get", nvc);
             return CreateEntity<Entities.GetResponseResponse>(req);
         }
 
@@ -119,7 +128,7 @@ namespace RenRen.Plurk
 
         #region "FriendsFans/"
 
-        public static IEnumerator<Entities.User> EnumerateFriends(int userId)
+        public IEnumerator<Entities.User> EnumerateFriends(int userId)
         {
             int offset = 0;
             do
@@ -130,7 +139,7 @@ namespace RenRen.Plurk
                 if (offset > 0)
                     nvc.Add("offset", offset.ToString());
 
-                string req = Instance.SendRequest("FriendsFans/getFriendsByOffset", nvc);
+                string req = instance.SendRequest("FriendsFans/getFriendsByOffset", nvc);
                 Entities.User[] users = new Entities.User[] {};
 
                 users = CreateEntity<Entities.User[]>(req);
@@ -147,11 +156,11 @@ namespace RenRen.Plurk
 
         #region "Private Functions"
 
-        private static string SendAPIRequest(string uri, NameValueCollection param)
+        private string SendAPIRequest(string uri, NameValueCollection param)
         {
             try
             {
-                return Instance.SendRequest(uri, param);
+                return instance.SendRequest(uri, param);
             }
             catch (OAuthRequestException ex)
             {
@@ -173,7 +182,7 @@ namespace RenRen.Plurk
             }
         }
 
-        private static T CreateEntity<T>(string jsonString)
+        private T CreateEntity<T>(string jsonString)
         {
             try
             {

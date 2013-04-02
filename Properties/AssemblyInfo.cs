@@ -11,5 +11,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("rsPlurkLib")]
 [assembly: AssemblyCopyright("Copyright © 2013 Poren Chiang. Published under The MIT License.")]
 
-[assembly: AssemblyVersion("1.0.13.125")]
-[assembly: AssemblyFileVersion("1.0.13.125")]
+[assembly: AssemblyVersion("1.1.13.402")]
+[assembly: AssemblyFileVersion("1.1.13.402")]

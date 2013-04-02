@@ -12,7 +12,7 @@ namespace RenRen.Plurk
     /// <summary>
     /// Provides OAuth authentication service for rsPlurk. This class cannot be inherited.
     /// </summary>
-    internal sealed class OAuthInstance
+    internal sealed class OAuthInstance : IOAuthClient
     {
         #region "Fields"
         private OAuthToken token = new OAuthToken();
@@ -323,14 +323,16 @@ namespace RenRen.Plurk
 
         #region "Properties"
         /// <summary>
-        /// Gets the current token.
+        /// Gets or sets the current token container.
         /// </summary>
-        public OAuthToken Token
+        /// <remarks>This implementation currently only accepts instances of OAuthToken.</remarks>
+        public IOAuthToken Token
         {
             get { return token; }
             set {
-                if (value == null) throw new ArgumentNullException();
-                token = value;
+                OAuthToken toSet = value as OAuthToken;
+                if (value == null) throw new ArgumentException();
+                token = toSet;
             }
         }
         #endregion
@@ -340,7 +342,7 @@ namespace RenRen.Plurk
     /// Stores a OAuth token. This class cannot be inherited.
     /// </summary>
     [Serializable]
-    public sealed class OAuthToken
+    public sealed class OAuthToken : IOAuthToken
     {
         #region "Constructor"
         /// <summary>
