@@ -27,6 +27,7 @@ namespace RenRen.Plurk
         private static string cGrantUrl = "http://www.plurk.com/OAuth/authorize";
         private static string cExchangeUrl = "http://www.plurk.com/OAuth/access_token";
         private static string cApiBaseUrl = "http://www.plurk.com/APP/";
+        private static string cUnreservedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-.~";
         private static DateTime cTimestampBase = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         #endregion
 
@@ -167,22 +168,12 @@ namespace RenRen.Plurk
         /// <returns></returns>
         private static string UrlEncode(string source)
         {
-            if (string.IsNullOrEmpty(source)) return null;
-            byte[] chars = Encoding.UTF8.GetBytes(source);
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < chars.Length; i++)
-            {
-                if (chars[i] >= 'A' && chars[i] <= 'Z') sb.Append((char)chars[i]);
-                else if (chars[i] >= 'a' && chars[i] <= 'z') sb.Append((char)chars[i]);
-                else if (chars[i] >= '0' && chars[i] <= '9') sb.Append((char)chars[i]);
-                else if (chars[i] == '_') sb.Append((char)chars[i]);
-                else if (chars[i] == '-') sb.Append((char)chars[i]);
-                else if (chars[i] == '.') sb.Append((char)chars[i]);
-                else if (chars[i] == '~') sb.Append((char)chars[i]);
-                else {
-                    sb.Append('%').Append(Convert.ToString(chars[i], 16).ToUpperInvariant());
-                }
-            }
+            foreach (char c in source)
+                if (cUnreservedChars.IndexOf(c) >= 0)
+                    sb.Append(c);
+                else
+                    sb.Append('%').Append(Convert.ToString((int)c, 16).ToUpperInvariant());
             return sb.ToString();
         }
 

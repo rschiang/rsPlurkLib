@@ -40,11 +40,11 @@ namespace RenRen.Plurk
         /// <summary>
         /// Gets or sets the token.
         /// </summary>
-        public string Content { get; set; }
+        string Content { get; set; }
 
         /// <summary>
         /// Gets or sets the token secret.
         /// </summary>
-        public string Secret { get; set; }
+        string Secret { get; set; }
     }
 }
