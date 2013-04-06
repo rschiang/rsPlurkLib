@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RenRen.Plurk</RootNamespace>
-    <AssemblyName>rsAIPlurkLib</AssemblyName>
+    <AssemblyName>rsPlurkLib</AssemblyName>
     <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
