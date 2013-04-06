@@ -164,10 +164,12 @@ namespace RenRen.Plurk
         /// <returns></returns>
         private static string UrlEncode(string source)
         {
+            if (String.IsNullOrEmpty(source)) return null;
+            byte[] chars = Encoding.UTF8.GetBytes(source);
             StringBuilder sb = new StringBuilder();
-            foreach (char c in source)
-                if (cUnreservedChars.IndexOf(c) >= 0)
-                    sb.Append(c);
+            foreach (byte c in chars)
+                if (cUnreservedChars.IndexOf((char)c) >= 0)
+                    sb.Append((char)c);
                 else
                     sb.Append('%').Append(Convert.ToString((int)c, 16).ToUpperInvariant());
             return sb.ToString();
