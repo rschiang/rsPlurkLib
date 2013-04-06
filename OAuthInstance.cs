@@ -47,12 +47,10 @@ namespace RenRen.Plurk
             NameValueCollection param = new NameValueCollection()
                 { { "oauth_callback", "oob"} }; // Plurk seems to omit this parameter
             
-            HttpWebRequest request = CreateRequest(cReqTokenUrl, param);
-            HttpWebResponse response = null;
-
             try
             {
-                response = (HttpWebResponse)request.GetResponse();
+                HttpWebRequest request = CreateRequest(cReqTokenUrl, param);
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
                 // Failing authorization (401) will generate a WebException instead of continue
                 using (StreamReader sr = new StreamReader(response.GetResponseStream()))
@@ -66,7 +64,8 @@ namespace RenRen.Plurk
             }
             catch (WebException ex)
             {
-                WebExceptionHelper(ex); throw;
+                WebExceptionHelper(ex);
+                throw new OAuthException("HTTP connection error during OAuth request", ex);
             }
 
         }
@@ -97,12 +96,10 @@ namespace RenRen.Plurk
             NameValueCollection param = new NameValueCollection()
                 { { "oauth_token", token.Content}, {"oauth_verifier", verifier} };
             
-            HttpWebRequest request = CreateRequest(cExchangeUrl, param);
-            HttpWebResponse response = null;
-            
             try
             {
-                response = (HttpWebResponse)request.GetResponse();
+                HttpWebRequest request = CreateRequest(cExchangeUrl, param);
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
                 using (StreamReader sr = new StreamReader(response.GetResponseStream()))
                 {
@@ -115,7 +112,8 @@ namespace RenRen.Plurk
             }
             catch (WebException ex)
             {
-                WebExceptionHelper(ex); throw;
+                WebExceptionHelper(ex);
+                throw new OAuthException("HTTP connection error during OAuth request", ex);
             }
 
         }
@@ -139,12 +137,10 @@ namespace RenRen.Plurk
                 foreach (string key in args.Keys)
                     if (!key.StartsWith("oauth_")) param.Add(key, args[key]);
 
-            HttpWebRequest request = CreateRequest(cApiBaseUrl + apiPath, param);
-            HttpWebResponse response = null;
-
             try
             {
-                response = (HttpWebResponse)request.GetResponse();
+                HttpWebRequest request = CreateRequest(cApiBaseUrl + apiPath, param);
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                 using (StreamReader sr = new StreamReader(response.GetResponseStream()))
                     return sr.ReadToEnd();
             }
