@@ -171,7 +171,7 @@ namespace RenRen.Plurk
                 if (cUnreservedChars.IndexOf((char)c) >= 0)
                     sb.Append((char)c);
                 else
-                    sb.Append('%').Append(Convert.ToString((int)c, 16).ToUpperInvariant());
+                    sb.Append(String.Format("%{0:X2}", (int)c));
             return sb.ToString();
         }
 
