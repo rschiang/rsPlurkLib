@@ -21,7 +21,8 @@ Prerequisites
 * `PlurkHelper.cs` wraps Plurk API as a single callable static class.
 * `Entities` folder holds the JSON entity type Plurk will return.
 
-### Usage
+Usage
+-----
 * Create a new instance of `PlurkHelper`.
 * Acquire a token using methods under `PlurkHelper.Client`.
 * Make use of methods under `PlurkHelper` class for matching API calls. 
@@ -50,4 +51,4 @@ You can follow @[RSChiang](http://www.plurk.com/RSChiang) on Plurk.
 
 License
 -------
-rsPlurkLib is released under [MIT License](/rschiang/rsPlurkLib/blob/master/LICENSE.md).
+rsPlurkLib is released under [MIT License](https://github.com/rschiang/rsPlurkLib/blob/master/LICENSE.md).
